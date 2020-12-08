@@ -1,7 +1,7 @@
 data = document
   .querySelector("body>pre")
   .innerText.split("\n\n")
-  .filter((str) => str.length > 0);
+  .map((str) => str.trim());
 
 // P1
 console.log(
