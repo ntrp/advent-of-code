@@ -66,7 +66,10 @@ computeP2 = (data) => {
     .map((ticket) =>
       ticket
         .map((num) =>
-          ranges.flatMap(({ r }) => (r.includes(num) ? [1] : [0])).join("")
+          ranges
+            .flatMap(({ r }) => (r.includes(num) ? [1] : [0]))
+            .reverse()
+            .join("")
         )
         .map((str) => parseInt(str, 2))
     )
