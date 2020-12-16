@@ -108,6 +108,12 @@ computeP2 = (data) => {
 };
 
 // P1
-console.log(`Part1: ${computeP1(data)}`);
+console.time("Part1");
+part1 = computeP1(data);
+console.timeEnd("Part1");
+console.log(`> ${part1}`);
 // P2
-console.log(`Part2: ${computeP2(data)}`);
+console.time("Part2");
+part2 = computeP2(data);
+console.timeEnd("Part2");
+console.log(`> ${part2}`);
