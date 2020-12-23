@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+DIR=`dirname "$BASH_SOURCE"`
+set -euo pipefail
+
+d=$1
+D=$(printf "%02d" "$d")
+
+curl --progress-bar \
+  "https://adventofcode.com/2020/day/${d}/input" \
+  -H "cookie: session=${SESSION_ID}" > "${DIR}/../day${D}/input.txt"
