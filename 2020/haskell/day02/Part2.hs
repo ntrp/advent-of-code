@@ -1,7 +1,6 @@
-#!/usr/bin/env stack
--- stack runghc
+#!/usr/bin/env runhaskell
 
-module Main where
+module Part2 where
 
 import Common
 
