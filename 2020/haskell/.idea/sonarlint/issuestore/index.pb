@@ -1,12 +1,0 @@
-
-9
-	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
-;
-app/Main.hs,1/8/189a2523965368c2ab61a418decbe6396326cb6b
-:
-
-stack.yaml,4/8/488c94119bfadd4d6d7832687f6f0fe09496d5f6
-;
-src/Util.hs,5/b/5b53bbe3bbb2893466b6610bf2b8791040ae42ff
-C
-src/input/day12.txt,5/9/59150d42f37556e5c77a38d23c9bebf775194186
