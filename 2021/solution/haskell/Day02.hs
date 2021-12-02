@@ -4,7 +4,7 @@ module Day01 where
 
 import Common
 
-data Direction = Forward | Up | Down deriving (Eq, Ord, Enum, Show)
+data Direction = Forward | Up | Down deriving (Enum, Show)
 data Command = Command {direction :: Direction, power :: Int} deriving (Show)
 
 parseDirection :: String -> Direction
@@ -33,8 +33,19 @@ computePosition (a, b) = a * b
 part1 :: [String] -> String
 part1 = show . computePosition . computePositionFragments . parselist parser
 
+applyCommandP2 :: (Int, Int, Int) -> Command -> (Int, Int, Int)
+applyCommandP2 (pos, aim, depth) Command{direction=Forward, power=val} = (pos + val, aim, depth + (aim * val))
+applyCommandP2 (pos, aim, depth) Command{direction=Up, power=val} = (pos, aim - val, depth)
+applyCommandP2 (pos, aim, depth) Command{direction=Down, power=val} = (pos, aim + val, depth)
+
+computePositionFragmentsP2 :: [Command] -> (Int, Int, Int)
+computePositionFragmentsP2 = foldl (\state curr -> applyCommandP2 state curr) (0, 0, 0)
+
+computePositionP2 :: (Int, Int, Int) -> Int
+computePositionP2 (a, _, b) = a * b
+
 part2 :: [String] -> String
-part2 _ = "n/a"
+part2 = show . computePositionP2 . computePositionFragmentsP2 . parselist parser
 
 main :: IO ()
 main = interact $ solution part1 part2
