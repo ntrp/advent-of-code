@@ -6,7 +6,7 @@ This are the solutions implemented in Haskell.
 
 To run the solution for a day execute the following command:
 ```
-$ run <day_number>
+$ ./run <day_number>
 ```
 
 ## Test
