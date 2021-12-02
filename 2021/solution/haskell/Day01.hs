@@ -1,3 +1,5 @@
+#!/usr/bin/env runhaskell
+
 module Day01 where
 
 import Common
