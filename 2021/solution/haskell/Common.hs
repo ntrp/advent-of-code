@@ -6,6 +6,9 @@ module Common (
 import Text.Parsec hiding(count, parse, uncons)
 import qualified Text.Parsec as Parsec
 
+notImplemented :: [String] -> String
+notImplemented _ = "not implemented"
+
 solution :: ([String] -> String) -> ([String] -> String) -> String -> String
 solution part1 part2 content =
     let p1 = part1 $ lines content
