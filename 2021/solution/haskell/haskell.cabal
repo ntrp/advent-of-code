@@ -1,0 +1,153 @@
+cabal-version:      2.4
+name:               aoc
+version:            2021
+
+-- A short (one-line) description of the package.
+-- synopsis:
+
+-- A longer description of the package.
+-- description:
+
+-- A URL where users can report bugs.
+-- bug-reports:
+
+-- The license under which the package is released.
+-- license:
+author:             Ivan Greguric Ortolan
+maintainer:         ivan.g.ortolan@gmail.com
+
+-- A copyright notice.
+-- copyright:
+-- category:
+
+source-repository head
+  type: git
+  location: https://github.com/ntrp/advent-of-code/2021/solution/haskell
+
+library
+  hs-source-dirs:      common
+  default-language:    Haskell2010
+
+  exposed-modules:
+    Common
+
+  build-depends:
+    base     ^>= 4.15,
+    parsec   ^>= 3.1.15.0,
+
+test-suite doctests
+  type:          exitcode-stdio-1.0
+  ghc-options:   -threaded
+  main-is:       doctests.hs
+  default-language:    Haskell2010
+
+  build-depends:
+    base,
+    doctest        ^>= 0.20,
+    directory      ^>= 1.3,
+    filepath       ^>= 1.4,
+
+common day
+  build-depends:       aoc, base
+  hs-source-dirs:      days
+  default-language:    Haskell2010
+
+executable Day01
+  import: day
+  main-is: Day01.hs
+
+executable Day02
+  import: day
+  main-is: Day02.hs
+
+executable Day03
+  import: day
+  main-is: Day03.hs
+
+executable Day04
+  import: day
+  main-is: Day04.hs
+
+executable Day05
+  import: day
+  main-is: Day05.hs
+
+executable Day06
+  import: day
+  main-is: Day06.hs
+
+executable Day07
+  import: day
+  main-is: Day07.hs
+
+executable Day08
+  import: day
+  main-is: Day08.hs
+
+executable Day09
+  import: day
+  main-is: Day09.hs
+
+executable Day10
+  import: day
+  main-is: Day10.hs
+
+executable Day11
+  import: day
+  main-is: Day11.hs
+
+executable Day12
+  import: day
+  main-is: Day12.hs
+
+executable Day13
+  import: day
+  main-is: Day13.hs
+
+executable Day14
+  import: day
+  main-is: Day14.hs
+
+executable Day15
+  import: day
+  main-is: Day15.hs
+
+executable Day16
+  import: day
+  main-is: Day16.hs
+
+executable Day17
+  import: day
+  main-is: Day17.hs
+
+executable Day18
+  import: day
+  main-is: Day18.hs
+
+executable Day19
+  import: day
+  main-is: Day19.hs
+
+executable Day20
+  import: day
+  main-is: Day20.hs
+
+executable Day21
+  import: day
+  main-is: Day21.hs
+
+executable Day22
+  import: day
+  main-is: Day22.hs
+
+executable Day23
+  import: day
+  main-is: Day23.hs
+
+executable Day24
+  import: day
+  main-is: Day24.hs
+
+executable Day25
+  import: day
+  main-is: Day25.hs
