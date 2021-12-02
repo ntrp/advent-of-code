@@ -1,0 +1,82 @@
+cradle:
+  cabal:
+    - path: "common"
+      component: "lib:aoc"
+
+    - path: "./"
+      component: "aoc:test:doctests"
+
+    - path: "days/Day01.hs"
+      component: "aoc:exe:Day01"
+
+    - path: "days/Day02.hs"
+      component: "aoc:exe:Day02"
+
+    - path: "days/Day03.hs"
+      component: "aoc:exe:Day03"
+
+    - path: "days/Day04.hs"
+      component: "aoc:exe:Day04"
+
+    - path: "days/Day05.hs"
+      component: "aoc:exe:Day05"
+
+    - path: "days/Day06.hs"
+      component: "aoc:exe:Day06"
+
+    - path: "days/Day07.hs"
+      component: "aoc:exe:Day07"
+
+    - path: "days/Day08.hs"
+      component: "aoc:exe:Day08"
+
+    - path: "days/Day09.hs"
+      component: "aoc:exe:Day09"
+
+    - path: "days/Day10.hs"
+      component: "aoc:exe:Day10"
+
+    - path: "days/Day11.hs"
+      component: "aoc:exe:Day11"
+
+    - path: "days/Day12.hs"
+      component: "aoc:exe:Day12"
+
+    - path: "days/Day13.hs"
+      component: "aoc:exe:Day13"
+
+    - path: "days/Day14.hs"
+      component: "aoc:exe:Day14"
+
+    - path: "days/Day15.hs"
+      component: "aoc:exe:Day15"
+
+    - path: "days/Day16.hs"
+      component: "aoc:exe:Day16"
+
+    - path: "days/Day17.hs"
+      component: "aoc:exe:Day17"
+
+    - path: "days/Day18.hs"
+      component: "aoc:exe:Day18"
+
+    - path: "days/Day19.hs"
+      component: "aoc:exe:Day19"
+
+    - path: "days/Day20.hs"
+      component: "aoc:exe:Day20"
+
+    - path: "days/Day21.hs"
+      component: "aoc:exe:Day21"
+
+    - path: "days/Day22.hs"
+      component: "aoc:exe:Day22"
+
+    - path: "days/Day23.hs"
+      component: "aoc:exe:Day23"
+
+    - path: "days/Day24.hs"
+      component: "aoc:exe:Day24"
+
+    - path: "days/Day25.hs"
+      component: "aoc:exe:Day25"
