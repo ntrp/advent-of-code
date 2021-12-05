@@ -48,7 +48,7 @@ computePosition (a, b) = a * b
 -- >>> part1 $ lines testInput
 -- "150"
 part1 :: [String] -> String
-part1 = show . computePosition . computePositionFragments . parselist parser
+part1 = show . computePosition . computePositionFragments . parseList' parser
 
 -- | should compute the correct state based on the command
 --
@@ -78,7 +78,7 @@ computePositionP2 (a, _, b) = a * b
 -- >>> part2 $ lines testInput
 -- "900"
 part2 :: [String] -> String
-part2 = show . computePositionP2 . computePositionFragmentsP2 . parselist parser
+part2 = show . computePositionP2 . computePositionFragmentsP2 . parseList' parser
 
 main :: IO ()
 main = interact $ solution part1 part2

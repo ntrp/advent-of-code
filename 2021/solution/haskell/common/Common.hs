@@ -1,10 +1,19 @@
 module Common (
   module Common,
-  module Text.Parsec
+  module Control.Applicative,
+  module Control.Monad,
+  module Parsec,
+  module Text.Parsec.String
 ) where
 
-import Text.Parsec hiding(count, parse, uncons)
-import qualified Text.Parsec as Parsec
+import Control.Applicative
+import Control.Monad (MonadPlus(..), ap)
+import Data.Functor.Identity
+-- Hide a few names that are provided by Applicative.
+import Data.Char ( isSpace )
+import Text.Parsec as Parsec hiding (State, many, optional, (<|>))
+import Text.Parsec.String ( Parser )
+import Debug.Trace(trace)
 
 notImplemented :: [String] -> String
 notImplemented _ = "not implemented"
@@ -15,21 +24,41 @@ solution part1 part2 content =
         p2 = part2 $ lines content
      in "Part1: " ++ p1 ++ "\nPart2: " ++ p2
 
--- | 'Parser' is a convenience type for 'Parsec'
-type Parser = Parsec String ()
+eolChar :: Char
+eolChar = '\n'
 
--- | The 'parse' function is a convenience function for 'Parsec.parse' that
--- removes the requirement to provide a file name.
-parse :: Parser a            -- ^ The parser for "a"s
-      -> String              -- ^ The string to be parsed
-      -> Either ParseError a -- ^ The successfully parsed value or an error
-parse p = Parsec.parse p ""
+eol :: Parser Char
+eol = char eolChar
 
--- | The 'parselist' function parses a list of 'String's using 'parse' and
--- returns the list of parsed "a"s.  If any parse was unsuccessful we crash the
--- program, showing the first error encountered.
-parselist :: Parser a -- ^ The parser for "a"s
+parse' :: Parser a -> String -> Either ParseError a
+parse' p = parse p ""
+
+parseList' :: Parser a -- ^ The parser for "a"s
           -> [String] -- ^ The list of 'String's to parse
           -> [a]      -- ^ The resulting list of "a"s
-parselist p = either (error . show) id . mapM (parse p)
+parseList' p = either (error . show) id . mapM (parse p "")
 
+whitespace :: Parser String
+whitespace = many $ satisfy $ \c -> isSpace c && c /= eolChar
+
+emptyLine :: Parser String
+emptyLine = whitespace
+
+emptyLines :: Parser [String]
+emptyLines = sepEndBy1 emptyLine eol
+
+println msg = trace (show msg) $ return ()
+
+seeNext :: Int -> ParsecT String u Identity ()
+seeNext n = do
+  s <- getParserState
+  let out = take n (stateInput s)
+  println out
+
+fromRight :: b -> Either a b -> b
+fromRight _ (Right x) = x
+fromRight x _ = x
+
+transpose :: [[a]]->[[a]]
+transpose ([]:_) = []
+transpose x = map head x : transpose (map tail x)

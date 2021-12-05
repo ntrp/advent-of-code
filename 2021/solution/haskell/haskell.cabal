@@ -67,6 +67,8 @@ executable Day03
 executable Day04
   import: day
   main-is: Day04.hs
+  build-depends:
+    mtl      ^>= 2.2.2
 
 executable Day05
   import: day
