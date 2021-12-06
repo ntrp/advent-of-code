@@ -62,3 +62,13 @@ fromRight x _ = x
 transpose :: [[a]]->[[a]]
 transpose ([]:_) = []
 transpose x = map head x : transpose (map tail x)
+
+-- ternary operator
+data Cond a = a :? a
+
+infixl 0 ?
+infixl 1 :?
+
+(?) :: Bool -> Cond a -> a
+True  ? (x :? _) = x
+False ? (_ :? y) = y

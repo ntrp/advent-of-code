@@ -142,8 +142,6 @@ bingoSolverSafe (Right pr) = evalState (playGameSafe $ fst pr) (0, snd pr)
 
 -- | should output the correct value give in the test input
 --
--- >>> part2 $ lines testInput
--- "not implemented"
 part2 :: [String] -> String
 part2 = show . bingoSolverSafe . parse' dataParser . unlines
 
