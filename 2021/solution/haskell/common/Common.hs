@@ -3,17 +3,18 @@ module Common (
   module Control.Applicative,
   module Control.Monad,
   module Parsec,
-  module Text.Parsec.String
+  module Text.Parsec.String,
+  module Debug.Trace
 ) where
 
 import Control.Applicative
 import Control.Monad (MonadPlus(..), ap)
 import Data.Functor.Identity
 -- Hide a few names that are provided by Applicative.
-import Data.Char ( isSpace )
+import Data.Char (isSpace)
 import Text.Parsec as Parsec hiding (State, many, optional, (<|>))
 import Text.Parsec.String ( Parser )
-import Debug.Trace(trace)
+import Debug.Trace (trace)
 
 notImplemented :: [String] -> String
 notImplemented _ = "not implemented"
