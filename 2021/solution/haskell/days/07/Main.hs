@@ -15,8 +15,8 @@ dataParser = map read <$> sepBy (many1 digit) (string ",")
 distance :: Int -> Int -> Int
 distance pos i = abs (pos - i)
 
-distanceQuadMemo :: Int -> Int -> Int
-distanceQuadMemo pos i = map dis [0 ..] !! abs (pos - i)
+distanceQuad :: Int -> Int -> Int
+distanceQuad pos i = dis $ abs (pos - i)
   where
     dis 0 = 0
     dis 1 = 1
@@ -41,7 +41,7 @@ part1 = show . solveFuel distance . fromRight [] . parse' dataParser . unlines
 -- >>> part2 $ lines testInput
 -- "168"
 part2 :: [String] -> String
-part2 = show . solveFuel distanceQuadMemo . fromRight [] . parse' dataParser . unlines
+part2 = show . solveFuel distanceQuad . fromRight [] . parse' dataParser . unlines
 
 main :: IO ()
 main = interact $ solution part1 part2

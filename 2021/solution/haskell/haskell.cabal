@@ -38,9 +38,8 @@ library
 test-suite doctests
   type:          exitcode-stdio-1.0
   ghc-options:   -threaded
-  main-is:       doctests.hs
+  main-is:       tests/doctests.hs
   default-language:    Haskell2010
-
   build-depends:
     base,
     doctest        ^>= 0.20,
@@ -49,110 +48,120 @@ test-suite doctests
 
 common day
   build-depends:       aoc, base
-  hs-source-dirs:      days
   default-language:    Haskell2010
 
 executable Day01
   import: day
-  main-is: Day01.hs
+  main-is: days/01/Main.hs
 
 executable Day02
   import: day
-  main-is: Day02.hs
+  main-is: days/02/Main.hs
 
 executable Day03
   import: day
-  main-is: Day03.hs
+  main-is: days/03/Main.hs
 
 executable Day04
   import: day
-  main-is: Day04.hs
+  main-is: days/04/Main.hs
   build-depends:
     mtl      ^>= 2.2.2
 
 executable Day05
   import: day
-  main-is: Day05.hs
+  main-is: days/05/Main.hs
 
 executable Day06
   import: day
-  main-is: Day06.hs
+  main-is: days/06/Main.hs
   build-depends:
     mtl      ^>= 2.2.2,
     vector   ^>= 0.12.3.1
 
 executable Day07
   import: day
-  main-is: Day07.hs
+  main-is: days/07/Main.hs
+
+benchmark Day07Bench
+  type:             exitcode-stdio-1.0
+  main-is:          benchmarks/Day07.hs
+  build-depends:    aoc,
+                    base,
+                    criterion,
+                    random,
+
+  ghc-options:      -Wall
+                    -O2
 
 executable Day08
   import: day
-  main-is: Day08.hs
+  main-is: days/08/Main.hs
 
 executable Day09
   import: day
-  main-is: Day09.hs
+  main-is: days/09/Main.hs
 
 executable Day10
   import: day
-  main-is: Day10.hs
+  main-is: days/10/Main.hs
 
 executable Day11
   import: day
-  main-is: Day11.hs
+  main-is: days/11/Main.hs
 
 executable Day12
   import: day
-  main-is: Day12.hs
+  main-is: days/12/Main.hs
 
 executable Day13
   import: day
-  main-is: Day13.hs
+  main-is: days/13/Main.hs
 
 executable Day14
   import: day
-  main-is: Day14.hs
+  main-is: days/14/Main.hs
 
 executable Day15
   import: day
-  main-is: Day15.hs
+  main-is: days/15/Main.hs
 
 executable Day16
   import: day
-  main-is: Day16.hs
+  main-is: days/16/Main.hs
 
 executable Day17
   import: day
-  main-is: Day17.hs
+  main-is: days/17/Main.hs
 
 executable Day18
   import: day
-  main-is: Day18.hs
+  main-is: days/18/Main.hs
 
 executable Day19
   import: day
-  main-is: Day19.hs
+  main-is: days/19/Main.hs
 
 executable Day20
   import: day
-  main-is: Day20.hs
+  main-is: days/20/Main.hs
 
 executable Day21
   import: day
-  main-is: Day21.hs
+  main-is: days/21/Main.hs
 
 executable Day22
   import: day
-  main-is: Day22.hs
+  main-is: days/22/Main.hs
 
 executable Day23
   import: day
-  main-is: Day23.hs
+  main-is: days/23/Main.hs
 
 executable Day24
   import: day
-  main-is: Day24.hs
+  main-is: days/24/Main.hs
 
 executable Day25
   import: day
-  main-is: Day25.hs
+  main-is: days/25/Main.hs

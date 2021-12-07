@@ -3,80 +3,83 @@ cradle:
     - path: "common"
       component: "lib:aoc"
 
-    - path: "./"
+    - path: "./tests/doctests.hs"
       component: "aoc:test:doctests"
 
-    - path: "days/Day01.hs"
+    - path: "./days/01/Main.hs"
       component: "aoc:exe:Day01"
 
-    - path: "days/Day02.hs"
+    - path: "./days/02/Main.hs"
       component: "aoc:exe:Day02"
 
-    - path: "days/Day03.hs"
+    - path: "./days/03/Main.hs"
       component: "aoc:exe:Day03"
 
-    - path: "days/Day04.hs"
+    - path: "./days/04/Main.hs"
       component: "aoc:exe:Day04"
 
-    - path: "days/Day05.hs"
+    - path: "./days/05/Main.hs"
       component: "aoc:exe:Day05"
 
-    - path: "days/Day06.hs"
+    - path: "./days/06/Main.hs"
       component: "aoc:exe:Day06"
 
-    - path: "days/Day07.hs"
+    - path: "./days/07/Main.hs"
       component: "aoc:exe:Day07"
 
-    - path: "days/Day08.hs"
+    - path: "./benchmarks/Day07.hs"
+      component: "aoc:bench:Day07Bench"
+
+    - path: "./days/08/Main.hs"
       component: "aoc:exe:Day08"
 
-    - path: "days/Day09.hs"
+    - path: "./days/09/Main.hs"
       component: "aoc:exe:Day09"
 
-    - path: "days/Day10.hs"
+    - path: "./days/10/Main.hs"
       component: "aoc:exe:Day10"
 
-    - path: "days/Day11.hs"
+    - path: "./days/11/Main.hs"
       component: "aoc:exe:Day11"
 
-    - path: "days/Day12.hs"
+    - path: "./days/12/Main.hs"
       component: "aoc:exe:Day12"
 
-    - path: "days/Day13.hs"
+    - path: "./days/13/Main.hs"
       component: "aoc:exe:Day13"
 
-    - path: "days/Day14.hs"
+    - path: "./days/14/Main.hs"
       component: "aoc:exe:Day14"
 
-    - path: "days/Day15.hs"
+    - path: "./days/15/Main.hs"
       component: "aoc:exe:Day15"
 
-    - path: "days/Day16.hs"
+    - path: "./days/16/Main.hs"
       component: "aoc:exe:Day16"
 
-    - path: "days/Day17.hs"
+    - path: "./days/17/Main.hs"
       component: "aoc:exe:Day17"
 
-    - path: "days/Day18.hs"
+    - path: "./days/18/Main.hs"
       component: "aoc:exe:Day18"
 
-    - path: "days/Day19.hs"
+    - path: "./days/19/Main.hs"
       component: "aoc:exe:Day19"
 
-    - path: "days/Day20.hs"
+    - path: "./days/20/Main.hs"
       component: "aoc:exe:Day20"
 
-    - path: "days/Day21.hs"
+    - path: "./days/21/Main.hs"
       component: "aoc:exe:Day21"
 
-    - path: "days/Day22.hs"
+    - path: "./days/22/Main.hs"
       component: "aoc:exe:Day22"
 
-    - path: "days/Day23.hs"
+    - path: "./days/23/Main.hs"
       component: "aoc:exe:Day23"
 
-    - path: "days/Day24.hs"
+    - path: "./days/24/Main.hs"
       component: "aoc:exe:Day24"
 
-    - path: "days/Day25.hs"
+    - path: "./days/25/Main.hs"
       component: "aoc:exe:Day25"
