@@ -1,4 +1,4 @@
-module Main(main) where
+module Main (main) where
 
 import Common
 import Control.Monad.State
@@ -13,6 +13,7 @@ cellActive (Cell s v) = s
 
 cellValue :: Cell -> Int
 cellValue (Cell s v) = v
+
 -- | parse a line of numbers
 --
 -- >>> runParser row () "" " 12 32 43 54"
@@ -26,6 +27,7 @@ data Matrix = Matrix Bool [[Cell]] deriving (Show)
 
 matrixWinner :: Matrix -> Bool
 matrixWinner (Matrix s v) = s
+
 -- | parse a list of rows separated by newline
 --
 -- >>> runParser matrix () "" "1 2 4\n 2   1  2  \n  3  23 23"
@@ -41,13 +43,15 @@ type ParseResult = ([Int], [Matrix])
 -- Right ([1,2,3],[Matrix False [[Cell False 1,Cell False 2,Cell False 3],[Cell False 4,Cell False 5,Cell False 6],[Cell False 7,Cell False 8,Cell False 9]],Matrix False [[Cell False 11,Cell False 22,Cell False 33],[Cell False 44,Cell False 55,Cell False 66],[Cell False 77,Cell False 88,Cell False 99]]])
 dataParser :: Parser ParseResult
 dataParser = do
-    inputs <- map read <$> sepBy (many digit) (char ',') <* newline
-    newline
-    matrixes <- sepEndBy matrix emptyLines
-    return (inputs, matrixes)
+  inputs <- map read <$> sepBy (many digit) (char ',') <* newline
+  newline
+  matrixes <- sepEndBy matrix emptyLines
+  return (inputs, matrixes)
 
 type BingoValue = Either String Int
+
 type BingoState = (Int, [Matrix])
+
 -- The three values are:
 -- - winning value
 -- - winner indexes (first one is the last winner)
@@ -77,9 +81,10 @@ drawNumber i (val, matrixes) = (val, map (matrixMapper i) matrixes)
 -- False
 checkMatrix :: Matrix -> Matrix
 checkMatrix (Matrix ms mv) =
-    let rows = any (all cellActive) mv
-        cols = any (all cellActive) $ transpose mv
-     in Matrix (rows || cols) mv
+  let rows = any (all cellActive) mv
+      cols = any (all cellActive) $ transpose mv
+   in Matrix (rows || cols) mv
+
 --    cols <- or . map (map (and . fst)) $ transpose mat
 --    return $ Matrix (rows `and` cols) mat
 
@@ -89,27 +94,26 @@ computeMatValue (Matrix s v) = sum $ map cellValue $ filter (not . cellActive) $
 -- | check if any matrix has won
 checkVictory :: Int -> BingoState -> BingoState
 checkVictory i (win, mats) =
-    let checkedMats = map checkMatrix mats
-        winningMat = filter matrixWinner checkedMats
-        loosingMat = filter (not . matrixWinner) checkedMats
-        res = if null winningMat then win else i * computeMatValue (head winningMat)
-     in (res, loosingMat)
+  let checkedMats = map checkMatrix mats
+      winningMat = filter matrixWinner checkedMats
+      loosingMat = filter (not . matrixWinner) checkedMats
+      res = if null winningMat then win else i * computeMatValue (head winningMat)
+   in (res, loosingMat)
 
 -- | calculate bingo state update
---
 playGame :: [Int] -> State BingoState BingoValue
 playGame [] = return $ Left "Nobody won!"
-playGame (i:xs) = do
-    st <- get
-    -- flip to true any element that matches the i element
-    put $ checkVictory i . drawNumber i $ st
-    (res, mats) <- get
-    case res of
-      0 -> playGame xs
-      val -> return $ Right val
+playGame (i : xs) = do
+  st <- get
+  -- flip to true any element that matches the i element
+  put $ checkVictory i . drawNumber i $ st
+  (res, mats) <- get
+  case res of
+    0 -> playGame xs
+    val -> return $ Right val
 
 -- | calculate bingo updates
--- 
+--
 -- >>> bingoSolver $ parse' dataParser testInput
 -- Right 4512
 bingoSolver :: Either ParseError ParseResult -> BingoValue
@@ -122,18 +126,18 @@ part1 = show . bingoSolver . parse' dataParser . unlines
 
 playGameSafe :: [Int] -> State BingoState BingoValue
 playGameSafe [] = do
-    (win, mats) <- get
-    case win of
-      0 -> return $ Left "No winner!"
-      val -> return $ Right val
-playGameSafe (i:xs) = do
-    st <- get
-    -- flip to true any element that matches the i element
-    put $ checkVictory i . drawNumber i $ st
-    playGameSafe xs
+  (win, mats) <- get
+  case win of
+    0 -> return $ Left "No winner!"
+    val -> return $ Right val
+playGameSafe (i : xs) = do
+  st <- get
+  -- flip to true any element that matches the i element
+  put $ checkVictory i . drawNumber i $ st
+  playGameSafe xs
 
 -- | calculate bingo updates
--- 
+--
 -- >>> bingoSolverSafe $ parse' dataParser testInput
 -- Right 1924
 bingoSolverSafe :: Either ParseError ParseResult -> BingoValue
@@ -141,7 +145,6 @@ bingoSolverSafe (Left err) = Left (show err)
 bingoSolverSafe (Right pr) = evalState (playGameSafe $ fst pr) (0, snd pr)
 
 -- | should output the correct value give in the test input
---
 part2 :: [String] -> String
 part2 = show . bingoSolverSafe . parse' dataParser . unlines
 

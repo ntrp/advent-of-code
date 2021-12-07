@@ -1,4 +1,4 @@
-module Main(main) where
+module Main (main) where
 
 import Common
 import Data.List
@@ -11,21 +11,21 @@ import Data.List
 -- >>> binToDec [1,1,0,0,0,1,0,1,0,1,1,1]
 -- 3159
 binToDec :: [Int] -> Int
-binToDec = sum . map (2^) . findIndices (==1) . reverse
+binToDec = sum . map (2 ^) . elemIndices 1 . reverse
 
 -- | convert a Char into a String
 --
 -- >>> toStrStr 'a'
 -- "a"
 toStrStr :: Char -> String
-toStrStr c = c:[]
+toStrStr c = [c]
 
 -- | convert an array of strings to an array of arrays of int
 --
 -- >>> convert ["101", "001"]
 -- [[1,0,1],[0,0,1]]
 convert :: [String] -> [[Int]]
-convert = map (\str -> map read $ map toStrStr str)
+convert = map (map $ read . toStrStr)
 
 -- | compute an increment while calculating the predominant bit (0 or 1)
 --
@@ -50,9 +50,9 @@ computeState = zipWith computeIncrement
 -- >>> computeGammaBin [[0,0,1,0,0,1,0], [1,1,1,1,0,0,1], [1,0,1,1,0,1,1]]
 -- [1,0,1,1,0,1,1]
 computeGammaBin :: [[Int]] -> [Int]
-computeGammaBin input = 
-    let size = length $ head input
-    in map (\x -> if x > 0 then 1 else 0) $ foldl computeState (replicate size 0) input
+computeGammaBin input =
+  let size = length $ head input
+   in map (\x -> if x > 0 then 1 else 0) $ foldl computeState (replicate size 0) input
 
 reverseBin :: [Int] -> [Int]
 reverseBin = map (\x -> if x == 1 then 0 else 1)
@@ -63,9 +63,9 @@ reverseBin = map (\x -> if x == 1 then 0 else 1)
 -- "198"
 part1 :: [String] -> String
 part1 input =
-    let gammaBin = computeGammaBin $ convert input
-        epsilon = binToDec $ reverseBin gammaBin
-    in show $ (binToDec gammaBin) * epsilon
+  let gammaBin = computeGammaBin $ convert input
+      epsilon = binToDec $ reverseBin gammaBin
+   in show $ binToDec gammaBin * epsilon
 
 -- | calculate the result
 --
@@ -80,9 +80,9 @@ part1 input =
 findValue :: (Int -> Int) -> Int -> [[Int]] -> [Int]
 findValue _ _ [last] = last
 findValue selectFn pos xs =
-    let selectCol = map (!! pos) xs
-        selectBit = selectFn $ foldl computeIncrement 0 selectCol
-     in findValue selectFn (pos + 1) $ filter (\x -> (x !! pos) == selectBit) xs
+  let selectCol = map (!! pos) xs
+      selectBit = selectFn $ foldl computeIncrement 0 selectCol
+   in findValue selectFn (pos + 1) $ filter (\x -> (x !! pos) == selectBit) xs
 
 -- | should output the correct value give in the test input
 --
@@ -90,10 +90,10 @@ findValue selectFn pos xs =
 -- "230"
 part2 :: [String] -> String
 part2 input =
-    let converted = convert input
-        ogr = binToDec $ findValue (\x -> if x > -1 then 1 else 0) 0 converted
-        csr = binToDec $ findValue (\x -> if x > -1 then 0 else 1) 0 converted
-     in show $ ogr * csr
+  let converted = convert input
+      ogr = binToDec $ findValue (\x -> if x > -1 then 1 else 0) 0 converted
+      csr = binToDec $ findValue (\x -> if x > -1 then 0 else 1) 0 converted
+   in show $ ogr * csr
 
 main :: IO ()
 main = interact $ solution part1 part2

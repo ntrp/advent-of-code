@@ -1,4 +1,4 @@
-module Main(main) where
+module Main (main) where
 
 import Common
 
@@ -17,7 +17,7 @@ toIntList = map read . filter (not . null)
 -- >>> computeCount [1, 2, 3, 3, 4, 2, 5]
 -- (4,5)
 computeCount :: [Int] -> (Int, Int)
-computeCount (x:xs) = foldl (\(count, prev) curr -> (if curr > prev then count + 1 else count, curr)) (0, x) xs
+computeCount (x : xs) = foldl (\(count, prev) curr -> (if curr > prev then count + 1 else count, curr)) (0, x) xs
 
 -- | should output the correct value give in the test input
 --
@@ -34,7 +34,7 @@ toSlidingWindow :: [Int] -> [Int]
 toSlidingWindow [a] = []
 toSlidingWindow [a, b] = []
 toSlidingWindow [a, b, c] = [a + b + c]
-toSlidingWindow (a:b:c:xs) = a + b + c : toSlidingWindow (b : c : xs)
+toSlidingWindow (a : b : c : xs) = a + b + c : toSlidingWindow (b : c : xs)
 
 -- | should output the correct value give in the test input
 --

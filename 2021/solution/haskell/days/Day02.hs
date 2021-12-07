@@ -1,4 +1,4 @@
-module Main(main) where
+module Main (main) where
 
 import Common
 
@@ -6,6 +6,7 @@ import Common
 -- >>> let testInput = "forward 5\ndown 5\nforward 8\nup 3\ndown 8\nforward 2"
 
 data Direction = Forward | Up | Down deriving (Enum, Show)
+
 data Command = Command {direction :: Direction, power :: Int} deriving (Show)
 
 parseDirection :: String -> Direction
@@ -18,7 +19,7 @@ parser = do
   direction <- many1 letter
   char ' '
   power <- many1 digit
-  return Command{direction = parseDirection direction, power = read power}
+  return Command {direction = parseDirection direction, power = read power}
 
 -- | should compute the correct state based on the command
 --
@@ -29,9 +30,9 @@ parser = do
 -- >>> applyCommand (1, 1) Command{direction=Down,power=3}
 -- (1,4)
 applyCommand :: (Int, Int) -> Command -> (Int, Int)
-applyCommand (pos, depth) Command{direction=Forward, power=val} = (pos + val, depth)
-applyCommand (pos, depth) Command{direction=Up, power=val} = (pos, depth - val)
-applyCommand (pos, depth) Command{direction=Down, power=val} = (pos, depth + val)
+applyCommand (pos, depth) Command {direction = Forward, power = val} = (pos + val, depth)
+applyCommand (pos, depth) Command {direction = Up, power = val} = (pos, depth - val)
+applyCommand (pos, depth) Command {direction = Down, power = val} = (pos, depth + val)
 
 computePositionFragments :: [Command] -> (Int, Int)
 computePositionFragments = foldl applyCommand (0, 0)
@@ -59,9 +60,9 @@ part1 = show . computePosition . computePositionFragments . parseList' parser
 -- >>> applyCommandP2 (1, 1, 1) Command{direction=Down,power=3}
 -- (1,4,1)
 applyCommandP2 :: (Int, Int, Int) -> Command -> (Int, Int, Int)
-applyCommandP2 (pos, aim, depth) Command{direction=Forward, power=val} = (pos + val, aim, depth + (aim * val))
-applyCommandP2 (pos, aim, depth) Command{direction=Up, power=val} = (pos, aim - val, depth)
-applyCommandP2 (pos, aim, depth) Command{direction=Down, power=val} = (pos, aim + val, depth)
+applyCommandP2 (pos, aim, depth) Command {direction = Forward, power = val} = (pos + val, aim, depth + (aim * val))
+applyCommandP2 (pos, aim, depth) Command {direction = Up, power = val} = (pos, aim - val, depth)
+applyCommandP2 (pos, aim, depth) Command {direction = Down, power = val} = (pos, aim + val, depth)
 
 computePositionFragmentsP2 :: [Command] -> (Int, Int, Int)
 computePositionFragmentsP2 = foldl applyCommandP2 (0, 0, 0)
