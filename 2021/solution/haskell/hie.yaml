@@ -83,3 +83,7 @@ cradle:
 
     - path: "./days/25/Main.hs"
       component: "aoc:exe:Day25"
+
+    - path: "./benchmarks/Fib.hs"
+      component: "aoc:bench:Fib"
+

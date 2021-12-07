@@ -165,3 +165,14 @@ executable Day24
 executable Day25
   import: day
   main-is: days/25/Main.hs
+
+benchmark Fib
+  type:             exitcode-stdio-1.0
+  main-is:          benchmarks/Fib.hs
+  build-depends:    aoc,
+                    base,
+                    criterion,
+                    random,
+
+  ghc-options:      -Wall
+                    -O2
