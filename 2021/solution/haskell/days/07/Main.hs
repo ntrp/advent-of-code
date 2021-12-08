@@ -27,7 +27,9 @@ distanceQuad pos i = dis $ abs (pos - i)
 -- >>> solveFuel distance $ fromRight [] $ parse' dataParser testInput
 -- 37
 solveFuel :: (Int -> Int -> Int) -> [Int] -> Int
-solveFuel distanceFn xs = minimum $ map (\pos -> sum $ map (distanceFn pos) xs) [minimum xs .. maximum xs]
+solveFuel distanceFn xs = foldl (\prev pos -> min prev $ sum $ map (distanceFn pos) xs) maxBound [minimum xs .. max]
+  where
+    max = maximum xs
 
 -- | should output the correct value give in the test input
 --
