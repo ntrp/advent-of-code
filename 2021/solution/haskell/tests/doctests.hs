@@ -6,18 +6,12 @@ import System.Directory
 import System.FilePath
 import System.IO
 import Test.DocTest
+import Text.Printf
 
 main :: IO ()
 main =
   do
-    files <- processFiles <$> listDirectory "days"
-    for_ files \file ->
+    for_ ["days/" ++ printf "%02d" x ++ "/Main.hs" | x <- [1 .. 25] :: [Int]] \file ->
       do
         hPutStrLn stderr ("Testing " ++ file)
         doctest ["-icommon", file]
-
-processFiles :: [FilePath] -> [FilePath]
-processFiles =
-  map ("days" </>)
-    . filter (\x -> "Day" `isPrefixOf` takeBaseName x && takeExtension x == ".hs")
-    . sort
