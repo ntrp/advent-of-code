@@ -42,12 +42,12 @@ part1 = show . numberCounter . parseList' dataParser
 -- | 4   2
 -- |  333
 -- |
--- | be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe
+
 -- |
--- | 0 1 2 3 4 5 6
--- |
--- | d b b f f c c
--- |   e e a a g g
+-- | Next steps:
+-- | - create al possible mappings
+-- | - verify them until one matches
+-- | - use it to decrypt the data line
 
 -- | find a string in array by length
 --
@@ -63,9 +63,28 @@ findByLength i = head . filter ((== i) . length)
 diff :: String -> String -> String
 diff s sd = filter (not . flip elem sd) s
 
+-- | True if a string has duplicated chars
+--
+-- >>> hasDuplicates "abcdees"
+-- True
+-- >>> hasDuplicates "abcdefg"
+-- False
 hasDuplicates :: (Ord a) => [a] -> Bool
 hasDuplicates xs = length (nub xs) /= length xs
 
+-- | Generate a number to alloved segment lines characters contraint map
+--
+-- | Dataline
+-- | be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe
+-- |
+-- | Constraints
+-- | 0 1 2 3 4 5 6
+-- |
+-- | d b b f f c c
+-- |   e e a a g g
+--
+-- >>> analyzeConstraints $ fromRight ([],[]) $ parse' dataParser "be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe"
+-- ["d","be","be","fa","fa","cg","cg"]
 analyzeConstraints :: DataLine -> [String]
 analyzeConstraints dl =
   let all = uncurry (++) dl
@@ -75,9 +94,20 @@ analyzeConstraints dl =
       eight = findByLength 7 all
    in [diff seven one, one, one, diff eight (four ++ seven), diff eight (four ++ seven), diff four one, diff four one]
 
+-- | combine al permutations of constraints to find the mappings and remove invalid ones
+-- | which contain the same line more than once
+--
+-- >>> computePossibleMappings ["a","bc","bc","d"]
+-- ["abcd","acbd"]
 computePossibleMappings :: [String] -> [String]
 computePossibleMappings = filter (not . hasDuplicates) . sequence
 
+-- | convert digit to segment mapping and try do decrypt to digit
+--
+-- >>> decryptDigit "abcdefg" "bcfg"
+-- Right 4
+-- >>> decryptDigit "abcdefg" "efg"
+-- Left "not found"
 decryptDigit :: String -> String -> Either String Int
 decryptDigit mapping digit =
   let mapped = map (\x -> if x `elem` digit then '1' else '0') mapping
@@ -94,6 +124,7 @@ decryptDigit mapping digit =
         "1111011" -> Right 9
         _ -> Left "not found"
 
+-- | find mapping that can decrypt all numbers
 findMapping :: [String] -> [String] -> Either String String
 findMapping [] input = Left "No pattern is valid"
 findMapping (m : mx) input =
@@ -101,6 +132,10 @@ findMapping (m : mx) input =
     Right _ -> Right m
     Left _ -> findMapping mx input
 
+-- | decrypt Dataline after analyzing constraints and finding the mapping
+--
+-- >>> decryptDataline $ fromRight ([],[]) $ parse' dataParser "be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe"
+-- Right 8394
 decryptDataline :: DataLine -> Either String Int
 decryptDataline dl =
   let mapping = flip findMapping (uncurry (++) dl) $ computePossibleMappings $ analyzeConstraints dl
@@ -111,12 +146,10 @@ decryptDataline dl =
 
 -- | should output the correct value give in the test input
 --
--- | p.s. horrible code, need to figure this one out....
---
 -- >>> part2 $ lines testInput
 -- "61229"
 part2 :: [String] -> String
-part2 = show . sum . fmap sum . map decryptDataline . parseList' dataParser
+part2 = showEither . fmap sum . mapM decryptDataline . parseList' dataParser
 
 main :: IO ()
 main = interact $ solution part1 part2
