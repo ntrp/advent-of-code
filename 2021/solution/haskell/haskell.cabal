@@ -101,6 +101,7 @@ executable Day08
 executable Day09
   import: day
   main-is: days/09/Main.hs
+  build-depends:    matrix
 
 executable Day10
   import: day
