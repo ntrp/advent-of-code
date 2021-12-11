@@ -115,6 +115,7 @@ executable Day10
 executable Day11
   import: day
   main-is: days/11/Main.hs
+  build-depends:    mtl, matrix
 
 executable Day12
   import: day
