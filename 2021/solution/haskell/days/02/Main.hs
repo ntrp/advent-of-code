@@ -1,6 +1,7 @@
 module Main (main) where
 
 import Common
+import Parsers
 
 -- $setup
 -- >>> let testInput = "forward 5\ndown 5\nforward 8\nup 3\ndown 8\nforward 2"

@@ -5,6 +5,7 @@ module Main (main) where
 import Common
 import Control.Monad.State
 import Data.List
+import Parsers
 
 -- $setup
 -- >>> let testInput = "3,4,3,1,2"

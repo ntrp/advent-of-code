@@ -1,6 +1,7 @@
 module Main (main) where
 
 import Common
+import Parsers
 
 -- $setup
 -- >>> let testInput = "16,1,2,0,4,2,7,1,2,14"

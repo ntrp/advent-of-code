@@ -7,24 +7,12 @@ import Data.List
 import Data.Matrix
 import Data.Maybe
 import qualified Data.Set as Set
+import Parsers
 
 type Point = (Int, Int)
 
 -- $setup
 -- >>> let testInput = "2199943210\n3987894921\n9856789892\n8767896789\n9899965678"
-
--- | parse data to matrix of Int
---
--- >>> fromRight (zero 2 2) $ parse' dataParser testInput
--- ┌                     ┐
--- │ 2 1 9 9 9 4 3 2 1 0 │
--- │ 3 9 8 7 8 9 4 9 2 1 │
--- │ 9 8 5 6 7 8 9 8 9 2 │
--- │ 8 7 6 7 8 9 6 7 8 9 │
--- │ 9 8 9 9 9 6 5 6 7 8 │
--- └                     ┘
-dataParser :: Parser (Matrix Int)
-dataParser = fromLists . map (map $ read . (: [])) <$> sepEndBy1 (many1 digit) eol
 
 pointAnalyze :: Matrix Int -> Point -> (Point, Bool)
 pointAnalyze m (r, c) =
@@ -37,7 +25,7 @@ pointAnalyze m (r, c) =
 
 -- | analize floor to sum the spots
 --
--- >>> floorAnalyze $ fromRight (zero 2 2) $ parse' dataParser testInput
+-- >>> floorAnalyze $ fromRight (zero 2 2) $ parse' digitMatrixParser testInput
 -- 15
 floorAnalyze :: Matrix Int -> Int
 floorAnalyze m =
@@ -49,7 +37,7 @@ floorAnalyze m =
 -- >>> part1 $ lines testInput
 -- "15"
 part1 :: [String] -> String
-part1 = showEither . fmap floorAnalyze . parse' dataParser . unlines
+part1 = showEither . fmap floorAnalyze . parse' digitMatrixParser . unlines
 
 -- | get valid points
 --
@@ -65,7 +53,7 @@ getValid m (r, c) =
 
 -- | compute the basin size
 --
--- >>> computeBasinSize (fromRight (zero 2 2) $ parse' dataParser testInput) Set.empty [(1,10)]
+-- >>> computeBasinSize (fromRight (zero 2 2) $ parse' digitMatrixParser testInput) Set.empty [(1,10)]
 -- 9
 computeBasinSize :: Matrix Int -> Set.Set Point -> [Point] -> Int
 computeBasinSize m s [] = 0
@@ -87,7 +75,7 @@ basinAnalyze m =
 -- >>> part2 $ lines testInput
 -- "1134"
 part2 :: [String] -> String
-part2 = show . basinAnalyze . fromRight (zero 0 0) . parse' dataParser . unlines
+part2 = show . basinAnalyze . fromRight (zero 0 0) . parse' digitMatrixParser . unlines
 
 main :: IO ()
 main = interact $ solution part1 part2

@@ -48,6 +48,7 @@ part1 = show . sum . map (scoreMatcher . detectCorrupted S.empty)
 -- |
 --
 -- >>> computeClosing S.empty "[({(<(())[]>[[{[]{<()<>>"
+-- "{{[[({(["
 computeClosing :: Stack Char -> [Char] -> [Char]
 computeClosing (Stack s) [] = s
 computeClosing s (x : xr)

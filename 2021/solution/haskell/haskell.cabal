@@ -30,11 +30,13 @@ library
 
   exposed-modules:
     Common,
-    Stack
+    Stack,
+    Parsers
 
   build-depends:
     base     ^>= 4.15,
     parsec   ^>= 3.1.15.0,
+    matrix
 
 test-suite doctests
   type:          exitcode-stdio-1.0
