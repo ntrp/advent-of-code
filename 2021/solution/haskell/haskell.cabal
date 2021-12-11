@@ -29,7 +29,8 @@ library
   default-language:    Haskell2010
 
   exposed-modules:
-    Common
+    Common,
+    Stack
 
   build-depends:
     base     ^>= 4.15,
