@@ -9,19 +9,19 @@ impl Solution for Day06 {
         "Tuning Trouble"
     }
 
-    fn part_a(&self, test: bool) -> String {
-        let stream = load(test);
+    fn part_a(&self) -> String {
+        let stream = load();
         find_marker(stream, 4).to_string()
     }
 
-    fn part_b(&self, test: bool) -> String {
-        let stream = load(test);
+    fn part_b(&self) -> String {
+        let stream = load();
         find_marker(stream, 14).to_string()
     }
 }
 
-fn load(test: bool) -> String {
-    problem::load(6, test)
+fn load() -> String {
+    problem::load(6)
 }
 
 fn find_marker(stream: String, size: usize) -> usize {

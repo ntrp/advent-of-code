@@ -16,8 +16,8 @@ impl Solution for Day03 {
         "Rucksack Reorganization"
     }
 
-    fn part_a(&self, test: bool) -> String {
-        let sacks = load(test);
+    fn part_a(&self) -> String {
+        let sacks = load();
         sacks
             .iter()
             .map(|prios| {
@@ -37,8 +37,8 @@ impl Solution for Day03 {
             .to_string()
     }
 
-    fn part_b(&self, test: bool) -> String {
-        let sacks = load(test);
+    fn part_b(&self) -> String {
+        let sacks = load();
         sacks
             .iter()
             .fold((vec![], 0u32), |(mut buff, sum), curr| {
@@ -63,8 +63,8 @@ impl Solution for Day03 {
     }
 }
 
-fn load(test: bool) -> Vec<Vec<u8>> {
-    let data = problem::load(3, test);
+fn load() -> Vec<Vec<u8>> {
+    let data = problem::load(3);
     let mut sacks = separated_list1(
         newline::<_, (&str, ErrorKind)>,
         map(alpha1, |sack: &str| {

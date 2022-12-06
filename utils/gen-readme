@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
-DIR=`dirname "$BASH_SOURCE"`
 set -euo pipefail
 
-source "${DIR}/../.env"
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+source "${SCRIPT_DIR}/../.env"
 
 y=$1
 d=$2
 D=$(printf "%02d" "$d")
 
-DEST=${DIR}/../${y}/days/${D}
+DEST=${SCRIPT_DIR}/../${y}/days/${D}
 mkdir -p "${DEST}"
 
 # DEPS
 # pup - https://github.com/ericchiang/pup
 # html2md - https://github.com/suntong/html2md
 tmpfile=$(mktemp)
-trap EXIT `rm -rf $tmpfile`
+trap EXIT $(rm -rf "${tmpfile}")
 
 url="https://adventofcode.com/${y}/day/${d}"
 
@@ -23,11 +23,11 @@ curl "$url" \
   -H "cookie: session=${SESSION_ID}" \
   | pup --pre --plain 'article' \
   | sed -e "s/---//g" \
-  > $tmpfile
+  > "$tmpfile"
 
-echo "<h2>Link</h2>" >> $tmpfile
-echo "<a href='$url'>$url</a>" >> $tmpfile
+echo "<h2>Link</h2>" >> "$tmpfile"
+echo "<a href='$url'>$url</a>" >> "$tmpfile"
 
-cat $tmpfile | html2md -i > "${DEST}/README.md"
+html2md -i "$tmpfile" > "${DEST}/README.md"
 
 prettier --write "${DEST}/README.md"

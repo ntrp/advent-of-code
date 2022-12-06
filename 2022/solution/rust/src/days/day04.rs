@@ -17,8 +17,8 @@ impl Solution for Day04 {
         "Camp Cleanup"
     }
 
-    fn part_a(&self, test: bool) -> String {
-        let assignments = load(test);
+    fn part_a(&self) -> String {
+        let assignments = load();
         assignments
             .iter()
             .filter(|((a, b), (c, d))| (a >= c && b <= d) || (c >= a && d <= b))
@@ -26,8 +26,8 @@ impl Solution for Day04 {
             .to_string()
     }
 
-    fn part_b(&self, test: bool) -> String {
-        let assignments = load(test);
+    fn part_b(&self) -> String {
+        let assignments = load();
         assignments
             .iter()
             .filter(|((a, b), (c, d))| b >= c && a <= d)
@@ -36,8 +36,8 @@ impl Solution for Day04 {
     }
 }
 
-fn load(test: bool) -> Vec<((u32, u32), (u32, u32))> {
-    let data = problem::load(4, test);
+fn load() -> Vec<((u32, u32), (u32, u32))> {
+    let data = problem::load(4);
     let assignment = map(
         tuple((
             decimal,

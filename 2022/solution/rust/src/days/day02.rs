@@ -15,13 +15,13 @@ impl Solution for Day02 {
         "Rock Paper Scissors"
     }
 
-    fn part_a(&self, test: bool) -> String {
-        let rounds = load(test);
+    fn part_a(&self) -> String {
+        let rounds = load();
         rounds.iter().map(|(him, me)| compute_score(*him, *me)).sum::<usize>().to_string()
     }
 
-    fn part_b(&self, test: bool) -> String {
-        let rounds = load(test);
+    fn part_b(&self) -> String {
+        let rounds = load();
         rounds.iter().map(|(him, me)| compute_score(*him, prepare(*him, *me))).sum::<usize>().to_string()
     }
 }
@@ -29,8 +29,8 @@ impl Solution for Day02 {
 const HIM: &str = "ABC";
 const ME: &str = "XYZ";
 
-fn load(test: bool) -> Vec<(usize, usize)> {
-    let data = problem::load(2, test);
+fn load() -> Vec<(usize, usize)> {
+    let data = problem::load(2);
     let round = map(
         tuple((
             one_of::<_, _, (&str, ErrorKind)>(HIM),

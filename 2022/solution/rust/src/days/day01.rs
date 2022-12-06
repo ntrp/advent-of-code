@@ -16,23 +16,23 @@ impl Solution for Day01 {
         "Calorie Counting"
     }
 
-    fn part_a(&self, test: bool) -> String {
-        let elfs = load(test);
+    fn part_a(&self) -> String {
+        let elfs = load();
         match elfs.iter().max() {
             Some(val) => val.to_string(),
             None => todo!(),
         }
     }
 
-    fn part_b(&self, test: bool) -> String {
-        let mut elfs = load(test);
+    fn part_b(&self) -> String {
+        let mut elfs = load();
         elfs.sort_by_key(|w| Reverse(*w));
         elfs.iter().take(3).sum::<u32>().to_string()
     }
 }
 
-fn load(test: bool) -> Vec<u32> {
-    let data = problem::load(1, test);
+fn load() -> Vec<u32> {
+    let data = problem::load(1);
     let numbers = map(
         separated_list1(line_ending, decimal),
         |calories: Vec<u32>| calories.iter().sum::<u32>(),

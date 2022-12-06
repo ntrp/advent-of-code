@@ -20,8 +20,8 @@ impl Solution for Day05 {
         "Supply Stacks"
     }
 
-    fn part_a(&self, test: bool) -> String {
-        let (table, instructions) = load(test);
+    fn part_a(&self) -> String {
+        let (table, instructions) = load();
         let mut state = transpose_to_stack(table);
         for (amount, src, dst) in instructions {
             for _ in 0..amount {
@@ -32,8 +32,8 @@ impl Solution for Day05 {
         state.iter().map(|curr| curr.last().unwrap().clone()).collect::<Vec<String>>().join("")
     }
 
-    fn part_b(&self, test: bool) -> String {
-        let (table, instructions) = load(test);
+    fn part_b(&self) -> String {
+        let (table, instructions) = load();
         let mut state = transpose_to_stack(table);
         for (amount, src, dst) in instructions {
             let mut buff = vec![];
@@ -49,8 +49,8 @@ impl Solution for Day05 {
     }
 }
 
-fn load(test: bool) -> (Vec<Vec<String>>, Vec<(u32, u32, u32)>) {
-    let data = problem::load(5, test);
+fn load() -> (Vec<Vec<String>>, Vec<(u32, u32, u32)>) {
+    let data = problem::load(5);
     let crate_symbol = map(
         delimited(char::<_, (&str, ErrorKind)>('['), alpha1, char(']')),
         |v| v.to_owned(),

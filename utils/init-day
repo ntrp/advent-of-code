@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+y=$1
+d=$2
+D=$(printf "%02d" "$d")
+
+DEST="${SCRIPT_DIR}/../${y}/days/${D}"
+mkdir -p "${DEST}"
+
+./get-input "${y}" "${d}"
+./init-day-rust "${y}" "${d}"

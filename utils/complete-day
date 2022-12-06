@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+y=$1
+d=$2
+D=$(printf "%02d" "$d")
+
+./gen-readme "${y}" "${d}"
+git add .
+git ci -m "day${D} complete"
