@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 y=$1
 d=$2
 D=$(printf "%02d" "$d")
 
-./gen-readme "${y}" "${d}"
+"${SCRIPT_DIR}/gen-readme" "${y}" "${d}"
 git add .
 git ci -m "day${D} complete"

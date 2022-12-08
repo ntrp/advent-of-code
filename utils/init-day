@@ -8,5 +8,5 @@ D=$(printf "%02d" "$d")
 DEST="${SCRIPT_DIR}/../${y}/days/${D}"
 mkdir -p "${DEST}"
 
-./get-input "${y}" "${d}"
-./init-day-rust "${y}" "${d}"
+"${SCRIPT_DIR}/get-input" "${y}" "${d}"
+"${SCRIPT_DIR}/init-day-rust" "${y}" "${d}"
