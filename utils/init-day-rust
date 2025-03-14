@@ -5,15 +5,34 @@ y=$1
 d=$2
 D=$(printf "%02d" "$d")
 
-FILE="${SCRIPT_DIR}/../${y}/solution/rust/src/days/day${D}.rs"
-MOD_FILE="${SCRIPT_DIR}/../${y}/solution/rust/src/days/mod.rs"
+BASE="${SCRIPT_DIR}/../${y}/solution/rust"
+FILE="${BASE}/src/days/day${D}.rs"
+MOD_FILE="${BASE}/src/days/mod.rs"
+
 if test -f "${FILE}"; then
-  echo "Day ${d} solution file already exists, aborting init"
-  exit 1
+  echo "Day ${d} solution file already exists, skipping"
+  exit 0
 fi
-cp "${SCRIPT_DIR}/tpl/rust/dayXX.rs.tpl" "${FILE}"
-perl -i -p0e "s/XX/${D}/g" "${FILE}"
-perl -i -p0e "s/X/${d}/g" "${FILE}"
-perl -i -p0e "s/(mod day[0-9]{2};\n)\n/\1mod day${D};\n\n/g" "${MOD_FILE}"
-perl -i -p0e "s/; [0-9]+\]/; ${d}]/g" "${MOD_FILE}"
-perl -i -p0e "s/(&day[0-9]{2}::Day[0-9]{2},)\n\]/\1\n    &day${D}::Day${D},\n\]/g" "${MOD_FILE}"
+
+if ! test -d "${BASE}"; then
+  echo "Year ${y} solution directory does not exist, initializing"
+  mkdir -p "${BASE}/src/days"
+  cat "${SCRIPT_DIR}/tpl/rust/Cargo.toml.tpl" | sed "s/<<YEAR>>/${y}/g" > "${BASE}/Cargo.toml"
+  cat "${SCRIPT_DIR}/tpl/rust/main.rs.tpl" | sed "s/<<YEAR>>/${y}/g" > "${BASE}/src/main.rs"
+  cat "${SCRIPT_DIR}/tpl/rust/problem.rs.tpl" | sed "s/<<YEAR>>/${y}/g" > "${BASE}/src/problem.rs"
+  cat "${SCRIPT_DIR}/tpl/rust/parsers.rs.tpl" | sed "s/<<YEAR>>/${y}/g" > "${BASE}/src/parsers.rs"
+  cat "${SCRIPT_DIR}/tpl/rust/utils.rs.tpl" > "${BASE}/src/utils.rs"
+  cat "${SCRIPT_DIR}/tpl/rust/mod.rs.tpl" | sed "s/<<YEAR>>/${y}/g" > "${BASE}/src/days/mod.rs"
+fi
+
+if ! test -f "${FILE}"; then
+  echo "Generating day ${d} solution file for Rust"
+  cat "${SCRIPT_DIR}/tpl/rust/dayXX.rs.tpl" | sed "s/<<DAY>>/${D}/g" | sed "s/<<DAYSHORT>>/${d}/g" > "${FILE}"
+fi
+
+if [ "${d}" -gt "1" ]; then
+  echo "Updating mod.rs for day ${d}"
+  perl -i -p0e "s/(mod day[0-9]{2};\n)\n/\1mod day${D};\n\n/g" "${MOD_FILE}"
+  perl -i -p0e "s/; [0-9]+\]/; ${d}]/g" "${MOD_FILE}"
+  perl -i -p0e "s/(&day[0-9]{2}::Day[0-9]{2},)\n\]/\1\n    &day${D}::Day${D},\n\]/g" "${MOD_FILE}"
+fi

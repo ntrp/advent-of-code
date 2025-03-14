@@ -9,4 +9,5 @@ DEST="${SCRIPT_DIR}/../${y}/days/${D}"
 mkdir -p "${DEST}"
 
 "${SCRIPT_DIR}/get-input" "${y}" "${d}"
+"${SCRIPT_DIR}/gen-readme" "${y}" "${d}"
 "${SCRIPT_DIR}/init-day-rust" "${y}" "${d}"

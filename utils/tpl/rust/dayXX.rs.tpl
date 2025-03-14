@@ -1,8 +1,8 @@
 use crate::problem::{self, Solution};
 
-pub struct DayXX;
+pub struct Day<<DAY>>;
 
-impl Solution for DayXX {
+impl Solution for Day<<DAY>> {
     fn name(&self) -> &'static str {
         "n/a"
     }
@@ -19,7 +19,7 @@ impl Solution for DayXX {
 }
 
 fn load() -> () {
-    let data = problem::load(X);
+    let data = problem::load(<<DAYSHORT>>);
     todo!()
 }
 

@@ -11,6 +11,11 @@ D=$(printf "%02d" "$d")
 DEST=${SCRIPT_DIR}/../${y}/days/${D}
 mkdir -p "${DEST}"
 
+if test -f "${DEST}/README.md"; then
+  echo "README already exists, skipping"
+  exit 0
+fi
+
 # DEPS
 # pup - https://github.com/ericchiang/pup
 # html2md - https://github.com/suntong/html2md
@@ -28,6 +33,6 @@ curl "$url" \
 echo "<h2>Link</h2>" >> "$tmpfile"
 echo "<a href='$url'>$url</a>" >> "$tmpfile"
 
-html2md -i "$tmpfile" > "${DEST}/README.md"
+html2markdown --input "$tmpfile" --output "${DEST}/README.md"
 
 prettier --write "${DEST}/README.md"
