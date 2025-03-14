@@ -1,6 +1,6 @@
-data = document
-  .querySelector("body>pre")
-  .innerText.split("\n\n")
+var loadData = require("./utils.cjs").loadData;
+data = loadData(4)
+  .split("\n\n")
   .map((str) => str.replaceAll(/\n/g, " ").split(" ").sort());
 
 computeMandatoryFields = (arr) => {

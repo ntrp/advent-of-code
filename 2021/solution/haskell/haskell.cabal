@@ -1,4 +1,4 @@
-cabal-version:      2.4
+cabal-version:      3.12
 name:               aoc
 version:            2021
 
@@ -34,7 +34,7 @@ library
     Parsers
 
   build-depends:
-    base     ^>= 4.15,
+    base     ^>= 4.17,
     parsec   ^>= 3.1.15.0,
     matrix
 
@@ -48,6 +48,28 @@ test-suite doctests
     doctest        ^>= 0.20,
     directory      ^>= 1.3,
     filepath       ^>= 1.4,
+
+benchmark Fib
+  type:             exitcode-stdio-1.0
+  main-is:          benchmarks/Fib.hs
+  build-depends:    aoc,
+                    base,
+                    criterion,
+                    random,
+
+  ghc-options:      -Wall
+                    -O2
+
+benchmark Day07Bench
+  type:             exitcode-stdio-1.0
+  main-is:          benchmarks/Day07.hs
+  build-depends:    aoc,
+                    base,
+                    criterion,
+                    random,
+
+  ghc-options:      -Wall
+                    -O2
 
 common day
   build-depends:       aoc, base
@@ -86,17 +108,6 @@ executable Day07
   import: day
   main-is: days/07/Main.hs
 
-benchmark Day07Bench
-  type:             exitcode-stdio-1.0
-  main-is:          benchmarks/Day07.hs
-  build-depends:    aoc,
-                    base,
-                    criterion,
-                    random,
-
-  ghc-options:      -Wall
-                    -O2
-
 executable Day08
   import: day
   main-is: days/08/Main.hs
@@ -117,69 +128,3 @@ executable Day11
   main-is: days/11/Main.hs
   build-depends:    mtl, matrix
 
-executable Day12
-  import: day
-  main-is: days/12/Main.hs
-
-executable Day13
-  import: day
-  main-is: days/13/Main.hs
-
-executable Day14
-  import: day
-  main-is: days/14/Main.hs
-
-executable Day15
-  import: day
-  main-is: days/15/Main.hs
-
-executable Day16
-  import: day
-  main-is: days/16/Main.hs
-
-executable Day17
-  import: day
-  main-is: days/17/Main.hs
-
-executable Day18
-  import: day
-  main-is: days/18/Main.hs
-
-executable Day19
-  import: day
-  main-is: days/19/Main.hs
-
-executable Day20
-  import: day
-  main-is: days/20/Main.hs
-
-executable Day21
-  import: day
-  main-is: days/21/Main.hs
-
-executable Day22
-  import: day
-  main-is: days/22/Main.hs
-
-executable Day23
-  import: day
-  main-is: days/23/Main.hs
-
-executable Day24
-  import: day
-  main-is: days/24/Main.hs
-
-executable Day25
-  import: day
-  main-is: days/25/Main.hs
-
-benchmark Fib
-  type:             exitcode-stdio-1.0
-  main-is:          benchmarks/Fib.hs
-  build-depends:    aoc,
-                    base,
-                    criterion,
-                    random,
-
-  ghc-options:      -Wall
-                    -O2

@@ -1,6 +1,6 @@
-data = document
-  .querySelector("body>pre")
-  .innerText.split("\n")
+var loadData = require("./utils.cjs").loadData;
+data = loadData(8)
+  .split("\n")
   .filter((str) => str.length > 0)
   .map((str) => ({ .../^(?<istr>\w+) (?<val>[+-]\d+)$/.exec(str).groups }));
 
@@ -8,7 +8,7 @@ compute = (swapIstr) => {
   let memory = new Set();
   let acc = 0;
   let i = 0;
-  for (; i < data.length; ) {
+  for (; i < data.length;) {
     if (memory.has(i)) {
       return { i, acc };
     }

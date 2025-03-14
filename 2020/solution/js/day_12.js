@@ -1,6 +1,6 @@
-data = document
-  .querySelector("body>pre")
-  .innerText.split("\n")
+var loadData = require("./utils.cjs").loadData;
+data = loadData(12)
+  .split("\n")
   .filter((str) => str.length > 0)
   .map((str) => ({ .../(?<op>\w)(?<val>\d+)/.exec(str).groups }));
 

@@ -1,6 +1,6 @@
-data = document
-  .querySelector(".puzzle-input")
-  .innerText.split(",")
+var loadData = require("./utils.cjs").loadData;
+data = loadData(15)
+  .split(",")
   .map((str) => parseInt(str));
 
 compute = (data, finalTurn) => {

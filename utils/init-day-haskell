@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+y=$1
+d=$2
+D=$(printf "%02d" "$d")
+
+BASE="${SCRIPT_DIR}/../${y}/solution/haskell"
+FILE="${BASE}/days/${D}/Main.hs"
+CABAL_FILE="${BASE}/haskell.cabal"
+TEST_FILE="${BASE}/tests/doctests.hs"
+
+if ! test -d "${BASE}"; then
+  echo "Year ${y} solution directory does not exist, initializing"
+  mkdir -p "${BASE}/days"
+  mkdir -p "${BASE}/tests"
+  mkdir -p "${BASE}/common"
+  cat "${SCRIPT_DIR}/tpl/haskell/haskell.cabal.tpl" | sed "s/<<YEAR>>/${y}/g" > "${BASE}/haskell.cabal"
+  cat "${SCRIPT_DIR}/tpl/haskell/run.tpl" > "${BASE}/run"
+  cat "${SCRIPT_DIR}/tpl/haskell/doctests.hs.tpl" > "${BASE}/tests/doctests.hs"
+  cat "${SCRIPT_DIR}/tpl/haskell/Common.hs.tpl" > "${BASE}/common/Common.hs"
+fi
+
+if ! test -f "${FILE}"; then
+  echo "Generating day ${d} solution file for Haskell"
+  mkdir -p "${BASE}/days/${D}"
+  cat "${SCRIPT_DIR}/tpl/haskell/Main.hs.tpl" > "${FILE}"
+fi
+
+if [ "${d}" -gt "1" ]; then
+  echo "Updating test entry and cabal file for day ${d}"
+  perl -i -p0e "s/(days\/[0-9]{2}\/Main.hs)$/\1\n\nexecutable Day${D}\n  import: day\n  main-is: days\/${D}\/Main.hs/g" "${CABAL_FILE}"
+  perl -i -p0e "s/\. [0-9]+\]/. ${d}]/g" "${TEST_FILE}"
+fi

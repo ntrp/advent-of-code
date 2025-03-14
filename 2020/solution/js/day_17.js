@@ -1,6 +1,6 @@
-data = document
-  .querySelector("body>pre")
-  .innerText.split("\n")
+var loadData = require("./utils.cjs").loadData;
+data = loadData(17)
+  .split("\n")
   .filter((str) => str.length > 0)
   .map((str) => str.split(""));
 
@@ -73,7 +73,7 @@ computeCycle = ({ grid, width, height, shift }, cycle, four) => {
 
 compute = (data, cycles, four) => {
   let state = initGrid(data, cycles);
-  for (let i = 0; i < cycles; ) {
+  for (let i = 0; i < cycles;) {
     computeCycle(state, ++i, four);
   }
   return state.grid

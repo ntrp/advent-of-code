@@ -1,6 +1,6 @@
-data = document
-  .querySelector("body>pre")
-  .innerText.split("\n")
+var loadData = require("./utils.cjs").loadData;
+data = loadData(1)
+  .split("\n")
   .filter((str) => str.length > 0)
   .map((str) => parseInt(str))
   .sort((a, b) => a - b);

@@ -1,6 +1,6 @@
-data = document
-  .querySelector("body>pre")
-  .innerText.split("\n")
+var loadData = require("./utils.cjs").loadData;
+data = loadData(7)
+  .split("\n")
   .filter((str) => str.length > 0)
   .map((str) => ({
     .../^(?<bag>[a-z]+ [a-z]+) bags contain(?<rest>( (\d+ \w+ \w+|no other) bags?,?)+)/g.exec(

@@ -11,7 +11,7 @@ import Text.Printf
 main :: IO ()
 main =
   do
-    for_ ["days/" ++ printf "%02d" x ++ "/Main.hs" | x <- [1 .. 25] :: [Int]] \file ->
+    for_ ["days/" ++ printf "%02d" x ++ "/Main.hs" | x <- [1 .. 11] :: [Int]] \file ->
       do
         hPutStrLn stderr ("Testing " ++ file)
         doctest ["-icommon", file]

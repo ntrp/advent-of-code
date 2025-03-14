@@ -1,4 +1,6 @@
-data = document.querySelector("body>pre").innerText.split("\n\n");
+var loadData = require("./utils.cjs").loadData;
+data = loadData(19)
+  .split("\n\n")
 
 parse = ([rules, strings]) => ({
   rules: rules
@@ -9,14 +11,14 @@ parse = ([rules, strings]) => ({
         return rest.match(/"[a-b]"/)
           ? { composite, final: { ...final, [num]: rest.replace(/"/g, "") } }
           : {
-              composite: {
-                ...composite,
-                [num]: rest
-                  .split(" | ")
-                  .map((str) => str.split(" ").map((str) => parseInt(str))),
-              },
-              final,
-            };
+            composite: {
+              ...composite,
+              [num]: rest
+                .split(" | ")
+                .map((str) => str.split(" ").map((str) => parseInt(str))),
+            },
+            final,
+          };
       },
       { composite: {}, final: {} }
     ),

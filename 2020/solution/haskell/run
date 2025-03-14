@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+DIR=`dirname "$BASH_SOURCE"`
+set -euo pipefail
+
+d=$1
+D=$(printf "%02d" "$d")
+
+cat ${DIR}/../../days/${D}/input.txt | cabal run Day${D}

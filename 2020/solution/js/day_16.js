@@ -1,6 +1,6 @@
-data = document
-  .querySelector("body>pre")
-  .innerText.split("\n\n")
+var loadData = require("./utils.cjs").loadData;
+data = loadData(16)
+  .split("\n\n")
   .filter((str) => str.length > 0);
 
 parse = ([ranges, ticket, tickets]) => ({
