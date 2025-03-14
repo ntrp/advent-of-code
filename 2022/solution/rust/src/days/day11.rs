@@ -1,7 +1,7 @@
 use std::collections::{HashMap, VecDeque};
 
 use crate::{
-    parsers::{big_decimal, decimal, ws},
+    parsers::{big_decimal, ws},
     problem::{self, Solution},
 };
 use nom::{
@@ -28,12 +28,15 @@ impl Solution for Day11 {
 
     fn part_b(&self) -> String {
         let mut monkeys = load();
-        let modulo = monkeys.iter().map(|monkey| monkey.cond_div_by).fold(1, |prev, val| prev * val);
+        let modulo = monkeys
+            .iter()
+            .map(|monkey| monkey.cond_div_by)
+            .product::<u128>();
         solve(&mut monkeys, 10000, modulo)
     }
 }
 
-fn solve(monkeys: &mut Vec<Monkey>, rounds: usize, modulo: u128) -> String {
+fn solve(monkeys: &mut [Monkey], rounds: usize, modulo: u128) -> String {
     let mut inspect_map: HashMap<u128, u128> = Default::default();
     for _round in 0..rounds {
         for i in 0..monkeys.len() {
@@ -46,9 +49,9 @@ fn solve(monkeys: &mut Vec<Monkey>, rounds: usize, modulo: u128) -> String {
             let mut change_map: HashMap<u128, Vec<u128>> = Default::default();
             while let Some(item) = monkey.items.pop_front() {
                 let mut worry_lvl: u128 = match monkey.operation.op {
-                    Op::PLUS => item + monkey.operation.val.clone(),
-                    Op::MULTIPLY => item * monkey.operation.val.clone(),
-                    Op::SQUARE => item.clone() * item.clone(),
+                    Op::Plus => item + monkey.operation.val,
+                    Op::Multiply => item * monkey.operation.val,
+                    Op::Square => item * item,
                 };
                 if modulo > 0 {
                     worry_lvl %= modulo;
@@ -60,12 +63,8 @@ fn solve(monkeys: &mut Vec<Monkey>, rounds: usize, modulo: u128) -> String {
                 } else {
                     monkey.cond_if_false
                 };
-                change_map
-                    .entry(dest)
-                    .or_insert_with(Vec::new)
-                    .push(worry_lvl);
+                change_map.entry(dest).or_default().push(worry_lvl);
             }
-            drop(monkey);
             for (id, items) in change_map {
                 let monkey = monkeys.get_mut(id as usize).unwrap();
                 for item in items {
@@ -75,10 +74,7 @@ fn solve(monkeys: &mut Vec<Monkey>, rounds: usize, modulo: u128) -> String {
         }
     }
 
-    let mut vals = inspect_map
-        .values()
-        .map(|v| v.clone())
-        .collect::<Vec<u128>>();
+    let mut vals = inspect_map.values().copied().collect::<Vec<u128>>();
     vals.sort();
     let a = vals.pop().unwrap();
     let b = vals.pop().unwrap();
@@ -91,9 +87,9 @@ pub struct FactorizedSum {}
 
 #[derive(Debug, PartialEq, Eq)]
 enum Op {
-    PLUS,
-    MULTIPLY,
-    SQUARE,
+    Plus,
+    Multiply,
+    Square,
 }
 
 #[derive(Debug, PartialEq, Eq)]
@@ -117,12 +113,12 @@ fn parse_operation(data: &str) -> IResult<&str, Operation> {
         tuple((ws(one_of("+-*")), alt((tag("old"), digit1)))),
         |(sign, val)| Operation {
             op: match sign {
-                '+' => Op::PLUS,
+                '+' => Op::Plus,
                 '*' => {
                     if val == "old" {
-                        Op::SQUARE
+                        Op::Square
                     } else {
-                        Op::MULTIPLY
+                        Op::Multiply
                     }
                 }
                 _ => panic!(),

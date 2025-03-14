@@ -42,27 +42,21 @@ impl Solution for Day07 {
         let total_usage = calc_dir_sizes(&mut memo, root, &fs);
         let free_space = 70000000 - total_usage;
         let need_to_free = 30000000 - free_space;
-        let mut sizes = memo.iter().map(|(_, size)| *size).collect::<Vec<u32>>();
+        let mut sizes = memo.values().copied().collect::<Vec<u32>>();
         sizes.sort();
         sizes
             .iter()
-            .find_map(|size| {
-                if size >= &need_to_free {
-                    Some(size)
-                } else {
-                    None
-                }
-            })
+            .find(|size| **size >= need_to_free)
             .unwrap()
             .to_string()
     }
 }
 
 fn calc_dir_sizes(memo: &mut HashMap<NodeId, u32>, node: NodeId, fs: &Arena<Output>) -> u32 {
-    match memo.get(&node).map(|entry| entry.clone()) {
+    match memo.get(&node).copied() {
         Some(res) => res,
         None => {
-            let children = node.children(&fs);
+            let children = node.children(fs);
             let mut total = 0;
             for child in children {
                 total += match fs.get(child).unwrap().get() {

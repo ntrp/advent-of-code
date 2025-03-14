@@ -1,4 +1,4 @@
-use std::{collections::HashSet, iter};
+use std::collections::HashSet;
 
 use nom::{
     character::complete::{digit1, newline, one_of},
@@ -22,11 +22,11 @@ impl Solution for Day09 {
 
     fn part_a(&self) -> String {
         let commands = load();
-        let mut rope = iter::repeat((0, 0)).take(2).collect::<Vec<(i32, i32)>>();
+        let mut rope = std::iter::repeat_n((0, 0), 2).collect::<Vec<(i32, i32)>>();
         let mut t_positions: HashSet<(i32, i32)> = HashSet::new();
         for command in commands {
             for _ in 0..command.value {
-                t_positions.insert(rope.get(1).unwrap().clone());
+                t_positions.insert(Clone::clone(rope.get(1).unwrap()));
                 move_head(rope.get_mut(0).unwrap(), &command.direction);
                 move_knot(&mut rope, 0);
             }
@@ -36,7 +36,7 @@ impl Solution for Day09 {
 
     fn part_b(&self) -> String {
         let commands = load();
-        let mut rope = iter::repeat((0, 0)).take(10).collect::<Vec<(i32, i32)>>();
+        let mut rope = std::iter::repeat_n((0, 0), 10).collect::<Vec<(i32, i32)>>();
         let mut t_positions: HashSet<(i32, i32)> = HashSet::new();
         for command in commands {
             for _ in 0..command.value {
@@ -44,7 +44,7 @@ impl Solution for Day09 {
                 for i in 0..(rope.len() - 1) {
                     move_knot(&mut rope, i);
                 }
-                t_positions.insert(rope.last().unwrap().clone());
+                t_positions.insert(*rope.last().unwrap());
             }
         }
         t_positions.len().to_string()
@@ -67,7 +67,7 @@ fn debug_rope(rope: Vec<(i32, i32)>, size: i32) {
                 );
             }
         }
-        println!("");
+        println!();
     }
 }
 
@@ -80,9 +80,9 @@ fn move_head(h: &mut (i32, i32), dir: &Direction) {
     };
 }
 
-fn move_knot(rope: &mut Vec<(i32, i32)>, i: usize) {
-    let h = rope.get(i).unwrap().clone();
-    let mut t = rope.get_mut(i + 1).unwrap();
+fn move_knot(rope: &mut [(i32, i32)], i: usize) {
+    let h = *rope.get(i).unwrap();
+    let t = rope.get_mut(i + 1).unwrap();
     if h.1.abs_diff(t.1) > 1 {
         t.1 = t.1 + if h.1 > t.1 { 1 } else { -1 };
         if h.0.abs_diff(t.0) >= 1 {

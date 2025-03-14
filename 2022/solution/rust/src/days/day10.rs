@@ -76,7 +76,7 @@ impl Solution for Day10 {
             for j in 0..40 {
                 print!("{}", pixels.get(i * 40 + j).unwrap_or(&"."));
             }
-            println!("");
+            println!()
         }
         "".to_string()
     }

@@ -1,4 +1,4 @@
-use std::{collections::HashSet, usize};
+use std::collections::HashSet;
 
 use crate::problem::{self, Solution};
 
@@ -40,7 +40,6 @@ fn find_marker(stream: String, size: usize) -> usize {
 #[cfg(test)]
 mod tests {
     use crate::days::day06::find_marker;
-
 
     #[test]
     fn part_a_test() {

@@ -48,7 +48,7 @@ fn parse_line(data: &str) -> IResult<&str, Vec<u32>> {
     }))(data)
 }
 
-fn tree_hidden(i: usize, j: usize, matrix: &Vec<Vec<u32>>) -> bool {
+fn tree_hidden(i: usize, j: usize, matrix: &[Vec<u32>]) -> bool {
     let current = matrix[j][i];
     let east = ((i + 1)..matrix[0].len()).find(|new_i| matrix[j][*new_i] >= current);
     if east.is_some() {
@@ -67,7 +67,7 @@ fn tree_hidden(i: usize, j: usize, matrix: &Vec<Vec<u32>>) -> bool {
 fn direction_scenic_score(
     indices: Vec<(usize, usize)>,
     current: u32,
-    matrix: &Vec<Vec<u32>>,
+    matrix: &[Vec<u32>],
 ) -> usize {
     let lower_trees = indices
         .iter()
@@ -80,7 +80,7 @@ fn direction_scenic_score(
     }
 }
 
-fn tree_scenic_score(i: usize, j: usize, matrix: &Vec<Vec<u32>>) -> usize {
+fn tree_scenic_score(i: usize, j: usize, matrix: &[Vec<u32>]) -> usize {
     let current = matrix[j][i];
     let width = matrix[0].len();
     let height = matrix.len();
@@ -136,8 +136,8 @@ mod tests {
 
         let (_, arr) = separated_list1(newline, parse_line)(input).unwrap();
 
-        assert_eq!(true, tree_hidden(3, 1, &arr));
-        assert_eq!(false, tree_hidden(1, 1, &arr));
+        assert!(tree_hidden(3, 1, &arr));
+        assert!(!tree_hidden(1, 1, &arr));
     }
 
     #[test]

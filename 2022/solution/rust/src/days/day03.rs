@@ -28,7 +28,7 @@ impl Solution for Day03 {
                     .filter(|elem| last.contains(elem))
                     .collect::<HashSet<_>>();
                 if res.len() == 1 {
-                    *res.iter().next().unwrap().clone() as u32
+                    **res.iter().next().unwrap() as u32
                 } else {
                     panic!("Found more than one duplicated elements")
                 }
@@ -53,7 +53,7 @@ impl Solution for Day03 {
                         .filter(|elem| buff[2].contains(elem))
                         .collect::<HashSet<_>>();
                     println!("{:?}", res);
-                    (vec![], sum + (*res.iter().next().unwrap().clone() as u32))
+                    (vec![], sum + (**res.iter().next().unwrap() as u32))
                 } else {
                     (buff, sum)
                 }
@@ -68,7 +68,7 @@ fn load() -> Vec<Vec<u8>> {
     let mut sacks = separated_list1(
         newline::<_, (&str, ErrorKind)>,
         map(alpha1, |sack: &str| {
-            sack.chars().map(|c| map_priority(c)).collect::<Vec<_>>()
+            sack.chars().map(map_priority).collect::<Vec<_>>()
         }),
     );
     match sacks(data.as_str()) {

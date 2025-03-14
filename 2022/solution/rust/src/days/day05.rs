@@ -21,7 +21,7 @@ impl Solution for Day05 {
     }
 
     fn part_a(&self) -> String {
-        let (table, instructions) = load();
+        let LoadResult(table, instructions) = load();
         let mut state = transpose_to_stack(table);
         for (amount, src, dst) in instructions {
             for _ in 0..amount {
@@ -29,11 +29,15 @@ impl Solution for Day05 {
                 state[(dst - 1) as usize].push(src_val);
             }
         }
-        state.iter().map(|curr| curr.last().unwrap().clone()).collect::<Vec<String>>().join("")
+        state
+            .iter()
+            .map(|curr| curr.last().unwrap().clone())
+            .collect::<Vec<String>>()
+            .join("")
     }
 
     fn part_b(&self) -> String {
-        let (table, instructions) = load();
+        let LoadResult(table, instructions) = load();
         let mut state = transpose_to_stack(table);
         for (amount, src, dst) in instructions {
             let mut buff = vec![];
@@ -45,11 +49,17 @@ impl Solution for Day05 {
                 state[(dst - 1) as usize].push(elem.clone());
             }
         }
-        state.iter().map(|curr| curr.last().unwrap().clone()).collect::<Vec<String>>().join("")
+        state
+            .iter()
+            .map(|curr| curr.last().unwrap().clone())
+            .collect::<Vec<String>>()
+            .join("")
     }
 }
 
-fn load() -> (Vec<Vec<String>>, Vec<(u32, u32, u32)>) {
+struct LoadResult(Vec<Vec<String>>, Vec<(u32, u32, u32)>);
+
+fn load() -> LoadResult {
     let data = problem::load(5);
     let crate_symbol = map(
         delimited(char::<_, (&str, ErrorKind)>('['), alpha1, char(']')),
@@ -64,11 +74,11 @@ fn load() -> (Vec<Vec<String>>, Vec<(u32, u32, u32)>) {
     let instruction_line = map(
         tuple((
             ws(tag("move")),
-            map(decimal, |d| d.clone()),
+            decimal,
             ws(tag("from")),
-            map(decimal, |d| d.clone()),
+            decimal,
             ws(tag("to")),
-            map(decimal, |d| d.clone()),
+            decimal,
         )),
         |(_, amount, _, src, _, dst)| (amount, src, dst),
     );
@@ -76,10 +86,10 @@ fn load() -> (Vec<Vec<String>>, Vec<(u32, u32, u32)>) {
 
     let mut res = tuple((table, newline, table_idx));
 
-    match res(data.as_str().clone()) {
+    match res(data.as_str()) {
         Ok((rest, (tbl, _, _))) => {
             let (_, instr) = instructions(rest).unwrap().clone();
-            (tbl, instr)
+            LoadResult(tbl, instr)
         }
         Err(_) => todo!(),
     }
@@ -92,7 +102,7 @@ fn transpose_to_stack(table: Vec<Vec<String>>) -> Vec<Vec<String>> {
     }
     for row in table.iter().rev() {
         for (i, elem) in row.iter().enumerate() {
-            if elem != "" {
+            if !elem.is_empty() {
                 res[i].push(elem.clone())
             }
         }

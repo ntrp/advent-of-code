@@ -4,9 +4,9 @@ use clap::{Parser, Subcommand};
 use days::ALL;
 
 mod days;
+mod parsers;
 mod problem;
 mod utils;
-mod parsers;
 
 #[derive(Parser)]
 struct Cli {
@@ -42,7 +42,7 @@ fn main() {
 }
 
 fn run(day: usize, part: char) {
-    let solution = match ALL.get(day.saturating_sub(1) as usize) {
+    let solution = match ALL.get(day.saturating_sub(1)) {
         Some(s) => s,
         None => {
             println!("No solution for day {}", day);
